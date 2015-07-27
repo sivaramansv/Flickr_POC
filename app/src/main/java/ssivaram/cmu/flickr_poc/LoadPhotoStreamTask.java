@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Geocoder;
 import android.location.Location;
@@ -37,10 +38,20 @@ public class LoadPhotoStreamTask extends AsyncTask<OAuth, Void, PhotoList> {
     private Activity activity;
     String oauthToken;
     String oauthTokenSecret;
+    ProgressDialog mProgressDialog;
 
     public LoadPhotoStreamTask(Activity activity, GridView gridView) {
         this.activity = activity;
         this.gridView = gridView;
+    }
+
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog = ProgressDialog.show(activity,
+                "", "Please wait..."); //$NON-NLS-1$ //$NON-NLS-2$
+        mProgressDialog.setCanceledOnTouchOutside(true);
     }
 
     /* (non-Javadoc)
@@ -64,8 +75,8 @@ public class LoadPhotoStreamTask extends AsyncTask<OAuth, Void, PhotoList> {
         try {
             //Getting the list of photos
             //return f.getPeopleInterface().getPhotos(user.getId(), extras, 20, 1);
-             /*PhotoList locationBasedList=new PhotoList();
-             PhotoList photoList=f.getPeopleInterface().getPhotos(user.getId(), extras, 20, 0);
+             PhotoList locationBasedList=new PhotoList();
+             PhotoList photoList=f.getPeopleInterface().getPhotos(user.getId(), extras, 20, 1);
              LocationManager locationManager=(LocationManager)activity.getSystemService(Context.LOCATION_SERVICE);
              Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
              Log.i("Count",Integer.toString(photoList.size()));
@@ -87,7 +98,7 @@ public class LoadPhotoStreamTask extends AsyncTask<OAuth, Void, PhotoList> {
                      Log.i("Exc",e.getMessage()+e.getErrorMessage());
                  }
                  }
-             }*/
+             }
               return f.getPeopleInterface().getPhotos(user.getId(), extras, 20, 1);
              //return locationBasedList;
 
@@ -107,6 +118,7 @@ public class LoadPhotoStreamTask extends AsyncTask<OAuth, Void, PhotoList> {
             Log.i("Size:",Integer.toString(result.size()));
             LazyAdapter adapter = new LazyAdapter(this.activity, result,oauthToken,oauthTokenSecret);
             this.gridView.setAdapter(adapter);
+            mProgressDialog.dismiss();
         }
         else
         {

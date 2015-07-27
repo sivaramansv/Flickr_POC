@@ -265,7 +265,7 @@ public class MainActivity extends ActionBarActivity {
             if (result != null && !result.startsWith("error") ) { //$NON-NLS-1$
             Log.i("Result",Uri.parse(result).toString());
             Log.i("On post","entered");
-            auth_dialog = new Dialog(mContext);
+            /*auth_dialog = new Dialog(mContext);
             auth_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             auth_dialog.setContentView(R.layout.twitter_webview);
             WebView web = (WebView)auth_dialog.findViewById(R.id.webv);
@@ -297,7 +297,7 @@ public class MainActivity extends ActionBarActivity {
             });
             auth_dialog.show();
             auth_dialog.setCancelable(true);
-                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+            */    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri
                         .parse(result)));
 
         } else {
